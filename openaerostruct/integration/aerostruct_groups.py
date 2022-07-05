@@ -211,6 +211,9 @@ class AerostructPoint(om.Group):
         self.options.declare(
             "rotational", False, types=bool, desc="Set to True to turn on support for computing angular velocities"
         )
+        self.options.declare("maxiter", types=int, default=100)
+        self.options.declare("atol", types=float, default=1e-7)
+        self.options.declare("rtol", types=float, default=1e-30)
 
     def setup(self):
         surfaces = self.options["surfaces"]
@@ -312,9 +315,9 @@ class AerostructPoint(om.Group):
         # coupled.linear_solver.precon = om.LinearRunOnce()
 
         coupled.nonlinear_solver = om.NonlinearBlockGS(use_aitken=True)
-        coupled.nonlinear_solver.options["maxiter"] = 100
-        coupled.nonlinear_solver.options["atol"] = 1e-7
-        coupled.nonlinear_solver.options["rtol"] = 1e-30
+        coupled.nonlinear_solver.options["maxiter"] = self.options["maxiter"]
+        coupled.nonlinear_solver.options["atol"] = self.options["atol"]
+        coupled.nonlinear_solver.options["rtol"] = self.options["rtol"]
         coupled.nonlinear_solver.options["iprint"] = 2
         coupled.nonlinear_solver.options["err_on_non_converge"] = True
 
