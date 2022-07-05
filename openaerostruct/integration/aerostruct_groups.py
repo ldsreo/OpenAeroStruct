@@ -377,3 +377,6 @@ class AerostructPoint(om.Group):
             ],
             promotes_outputs=["L_equals_W", "fuelburn", "CL", "CD", "CM", "cg"],
         )
+
+        # Need to set the default value/unit for beta since it is often unused (unconnected)
+        self.set_input_defaults("beta", val=0.0, units="deg")
