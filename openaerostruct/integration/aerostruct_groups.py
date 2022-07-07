@@ -44,6 +44,8 @@ class AerostructGeometry(om.Group):
                 geom_promotes_in.append("taper")
             if "mx" in surface.keys():
                 geom_promotes_in.append("shape")
+            if "chord_cp" in surface.keys():
+                geom_promotes_in.append("chord_cp")
 
         self.add_subsystem(
             "geometry",
@@ -57,7 +59,9 @@ class AerostructGeometry(om.Group):
             tube_promotes_output = ["A", "Iy", "Iz", "J", "radius", "thickness"]
             if "thickness_cp" in surface.keys() and connect_geom_DVs:
                 tube_promotes_input.append("thickness_cp")
-            if "radius_cp" not in surface.keys():
+            if "radius_cp" in surface.keys():
+                tube_promotes_input.append("radius_cp")
+            else:
                 tube_promotes_input = tube_promotes_input + ["mesh", "t_over_c"]
 
             self.add_subsystem(
