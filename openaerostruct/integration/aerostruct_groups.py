@@ -36,6 +36,7 @@ class AerostructGeometry(om.Group):
             # This is useful when you want to have morphing DVs, such as twist or span, that are different at each point in a multipoint scheme.
             if "chord_cp" in surface.keys():
                 geom_promotes_in.append("chord_cp")
+                geom_promotes_out.append("chord")
             if "twist_cp" in surface.keys():
                 geom_promotes_in.append("twist_cp")
             if "t_over_c_cp" in surface.keys():
@@ -179,6 +180,8 @@ class CoupledPerformance(om.Group):
                 SpatialBeamFunctionals(surface=surface),
                 promotes_inputs=["thickness", "radius", "nodes", "disp"],
                 promotes_outputs=["thickness_intersects", "vonmises", "failure"],
+                # promotes_inputs=["thickness", "radius", "nodes", "disp", "mesh", "t_over_c"],
+                # promotes_outputs=["thickness_intersects", "tube_in_wing", "vonmises", "failure"],
             )
 
         elif surface["fem_model_type"] == "wingbox":

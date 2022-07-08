@@ -6,6 +6,7 @@ import openmdao.api as om
 from openaerostruct.structures.vonmises_tube import VonMisesTube
 from openaerostruct.structures.vonmises_wingbox import VonMisesWingbox
 from openaerostruct.structures.non_intersecting_thickness import NonIntersectingThickness
+from openaerostruct.structures.tube_inside_wing import TubeInsideWing
 from openaerostruct.structures.failure_exact import FailureExact
 from openaerostruct.structures.failure_ks import FailureKS
 
@@ -32,6 +33,13 @@ class SpatialBeamFunctionals(om.Group):
                 promotes_inputs=["thickness", "radius"],
                 promotes_outputs=["thickness_intersects"],
             )
+
+            # self.add_subsystem(
+            #     "radiusconstraint",
+            #     TubeInsideWing(surface=surface),
+            #     promotes_inputs=["mesh", "t_over_c", "radius"],
+            #     promotes_outputs=["tube_in_wing"],
+            # )
 
             self.add_subsystem(
                 "vonmises",
