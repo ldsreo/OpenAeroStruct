@@ -34,18 +34,20 @@ class AerostructGeometry(om.Group):
             # If it's false, then we do not promote them, which means that the geometry at each AeroStruct point is independent,
             # and the user can provide different values at each point.
             # This is useful when you want to have morphing DVs, such as twist or span, that are different at each point in a multipoint scheme.
+            if "chord_cp" in surface.keys():
+                geom_promotes_in.append("chord_cp")
             if "twist_cp" in surface.keys():
                 geom_promotes_in.append("twist_cp")
             if "t_over_c_cp" in surface.keys():
                 geom_promotes_out.append("t_over_c")
+            if "span" in surface.keys():
+                geom_promotes_in.append("span")
             if "sweep" in surface.keys():
                 geom_promotes_in.append("sweep")
             if "taper" in surface.keys():
                 geom_promotes_in.append("taper")
             if "mx" in surface.keys():
                 geom_promotes_in.append("shape")
-            if "chord_cp" in surface.keys():
-                geom_promotes_in.append("chord_cp")
 
         self.add_subsystem(
             "geometry",
